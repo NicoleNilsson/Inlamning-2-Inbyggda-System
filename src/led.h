@@ -17,7 +17,7 @@ public:
     bool state = false;
     volatile uint16_t LEDPower = 0;
     void toggleLED(void);
-    void LEDSerialControl(Serial &serial);
+    void LEDSerialControl(const uint16_t &baudRate);
 
 private:
     void initiateLED(void);

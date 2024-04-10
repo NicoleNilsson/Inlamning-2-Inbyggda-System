@@ -17,12 +17,13 @@ void LED::initiateLED(void){
   OUTPUT_CONFIG(DDRx, nbit); 
 }
 
-void LED::LEDSerialControl(Serial &serial){
+void LED::LEDSerialControl(const uint16_t &baudRate){
+  Serial uart(baudRate);
   char str[16];
 
-  serial.recieveString(str, sizeof(str));
-  serial.transmitString(str);
-  serial.transmitChar('\n');
+  uart.recieveString(str, sizeof(str));
+  uart.transmitString(str);
+  uart.transmitChar('\n');
 
   uint8_t result = sscanf(str, "ledpower %d", &LEDPower);
 
@@ -32,7 +33,7 @@ void LED::LEDSerialControl(Serial &serial){
     }else if(LEDPower <= LED_POWER_THRESHOLD && LEDPower >= LED_POWER_MIN){
       state = false;
     }else{
-      serial.transmitString("Invalid led power value\n");
+      uart.transmitString("Invalid led power value\n");
     }
   }
 }
