@@ -7,10 +7,8 @@
 
 volatile bool eventHappened = false;
 
-
-//Timer compare
 ISR(TIMER1_COMPA_vect){
-  OCR1A += 62500; //interrupt every 1s
+  OCR1A += 62500; //interrupt every 1sec
   eventHappened = true;
 }
 
@@ -18,7 +16,6 @@ int main(void){
   //setup
   Timer timer;
   Potentiometer potentiometer;
-  sei();
 
   while(1){
     if(eventHappened){

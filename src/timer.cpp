@@ -2,11 +2,9 @@
 #include "timer.h"
 
 void Timer::timerSetup(void){
-TCCR1A = 0; // Init Timer1
-TCCR1B = 0; // Init Timer1
-// TCCR1B |= 0x03; // Prescaler = 64
-TCCR1B |= 0x04; // Prescaler = 256
-// OCR1A = 50000; // Set Timer CompareA Register
-OCR1A = 62500;
-TIMSK1 |= 0x02; // Enable Timer COMPA Interrupt
+    TCCR1A = 0; //initiate Timer1
+    TCCR1B = 0; //initiate Timer1
+    TCCR1B |= (1 << CS12); //prescaler = 256 
+    OCR1A = 62500; //for 1s interval
+    TIMSK1 |= (1 << OCIE1A); //enable Timer COMPA Interrupt
 }
