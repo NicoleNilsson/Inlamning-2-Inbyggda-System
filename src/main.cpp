@@ -18,6 +18,7 @@ int main(void){
   Timer timer;
   Potentiometer potentiometer;
   Serial uart(baudRate);
+  LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
   while(1){
     if(eventHappened){
