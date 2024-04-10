@@ -8,7 +8,7 @@ LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
 //Timer compare
 ISR(TIMER1_COMPA_vect){
-  OCR1A += 50000; //Advance The COMPA Register
+  OCR1A += 50000; //Advance the COMPA register to interrupt every 200ms
   redLED.state = !redLED.state;
 }
 
