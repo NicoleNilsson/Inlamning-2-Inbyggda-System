@@ -5,15 +5,9 @@
 #include "led.h"
 #include "timer.h"
 #include "serial.h"
-//#include "Arduino.h"
 
-LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
-//Timer compare
-// ISR(TIMER1_COMPA_vect){
-//   OCR1A += 50000; //Advance the COMPA register to interrupt every 200ms
-//   redLED.state = !redLED.state;
-// }
+volatile bool eventHappened = false;
 
 void initADC(void){
   ADMUX = (1 << REFS0); // select ADC0 (pin A0) as input
@@ -32,19 +26,30 @@ uint16_t readADC(void){
   return ADC;
 }
 
+//Timer compare
+ISR(TIMER1_COMPA_vect){
+  OCR1A += 62500; //interrupt every 1s
+  eventHappened = true;
+}
+
 int main(void){
   //setup
+  Timer timer;
   Serial uart(9600);
   initADC();
+  sei();
+
   uint16_t ADCValue = 0;
   char str[10];
-  
 
   while(1){
-    ADCValue = readADC();
-    itoa(ADCValue, str, 10);
-    uart.transmitString(str);
-    uart.transmitChar('\n');
+    if(eventHappened){
+      ADCValue = readADC();
+      itoa(ADCValue, str, 10);
+      uart.transmitString(str);
+      uart.transmitChar('\n');
+      eventHappened = false; // Återställ flaggan
+    }
   }
 
   return 0;
