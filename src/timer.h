@@ -2,9 +2,12 @@
 #define __TIMER_H
 
 class Timer{
+public:
     Timer(){
+        timerSetup();
     }
 
+private:
     void timerSetup();
 };
 
