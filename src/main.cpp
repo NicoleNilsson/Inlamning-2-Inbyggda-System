@@ -6,6 +6,7 @@
 #include "potentiometer.h"
 
 volatile bool eventHappened = false;
+const uint16_t baudRate = 9600;
 
 ISR(TIMER1_COMPA_vect){
   OCR1A += 62500; //interrupt every 1sec
@@ -16,11 +17,13 @@ int main(void){
   //setup
   Timer timer;
   Potentiometer potentiometer;
+  Serial uart(baudRate);
 
   while(1){
     if(eventHappened){
-      const uint16_t baudRate = 9600;
-      potentiometer.printADCValue(baudRate);
+      //vill jag hämta adc value innan jag anropar print?
+      potentiometer.printADCValue(uart);
+      potentiometer.printVoltage(uart);
       eventHappened = false;
     }
   }

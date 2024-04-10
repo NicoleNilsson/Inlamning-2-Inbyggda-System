@@ -18,13 +18,23 @@ uint16_t Potentiometer::readADC(void){
   return ADC;
 }
 
-void Potentiometer::printADCValue(const uint16_t &baudRate){
-  Serial uart(baudRate);
-
+void Potentiometer::printADCValue(Serial &uart){
   uint16_t ADCValue = readADC();
   char str[10];
-
   itoa(ADCValue, str, 10);
+
+  uart.transmitString("ADC value: ");
+  uart.transmitString(str);
+  uart.transmitChar('\n');
+}
+
+void Potentiometer::printVoltage(Serial &uart){ 
+  uint16_t ADCValue = readADC();
+  uint8_t voltage = (ADCValue * (5.0 / 1023)); //TODO: bestäm om använda volt eller millivolt
+  char str[10];
+  itoa(voltage, str, 10);
+
+  uart.transmitString("Votlage: ");
   uart.transmitString(str);
   uart.transmitChar('\n');
 }
