@@ -8,7 +8,7 @@ LED redLED(3, DDRD, PORTD);
 
 //Timer preloading with Timer overflow interrupt
 ISR(TIMER1_OVF_vect){
-  TCNT1 = 15536; // TimerPreloading reset to 200ms
+  TCNT1 = 15536; // TimerPreloading reset for 200ms
   redLED.state = !redLED.state;
 }
 
