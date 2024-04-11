@@ -6,6 +6,9 @@
 #include "timer.h"
 #include "potentiometer.h"
 
+#define DISABLE_COMPB_INTERRUPT TIMSK1 &= ~(1 << OCIE1B); // disable Timer COMPB Interrupt
+#define ENABLE_COMPB_INTERRUPT TIMSK1 |= (1 << OCIE1B); //enable Timer COMPB Interrupt
+
 volatile bool ADCInterrupt = false;
 volatile bool blink = false;
 
@@ -54,9 +57,12 @@ int main(void){
       uart.transmitChar('\n');
 
       if(voltage == 5){
+        ENABLE_COMPB_INTERRUPT;
         compBTimeInterval = 100;
+      }else if(voltage == 0){
+        DISABLE_COMPB_INTERRUPT;
+        redLED.state = true;
       }
-
       ADCInterrupt = false;
     }
 
