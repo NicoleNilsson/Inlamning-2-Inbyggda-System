@@ -12,20 +12,20 @@ uint16_t compATimeInterval = 1000;//interrupt every 1sec
 uint16_t compBTimeInterval = 1000;//interrupt every 1sec
 
 ISR(TIMER1_COMPA_vect){
-  OCR1A += ((compATimeInterval * 16000UL) / 256); 
+  OCR1A += (compATimeInterval * 16000UL) / 256; 
   eventHappened = true;
 }
 
-// ISR(TIMER1_COMPB_vect){
-//   OCR1B += (compBTimeInterval * 1000) / 64 - 1;
-//   blink = true;
-// }
+ISR(TIMER1_COMPB_vect){
+  OCR1B += (compBTimeInterval * 16000UL) / 256;
+  blink = true;
+}
 
 int main(void){
   //setup
   Timer timer;
   timer.compASetUp(compATimeInterval);
-  //timer.compBSetUp(compBTimeInterval);
+  timer.compBSetUp(compBTimeInterval);
   
   Potentiometer potentiometer;
 
@@ -41,10 +41,10 @@ int main(void){
       eventHappened = false;
     }
 
-    // if(blink){
-    //   redLED.state = !redLED.state;
-    //   blink = false;
-    // }
+    if(blink){
+      redLED.state = !redLED.state;
+      blink = false;
+    }
     redLED.toggleLED();
   }
 

@@ -9,13 +9,13 @@ void Timer::timerSetup(void){
 }
 
 void Timer::compASetUp(const uint16_t &compATimeInterval){
-    OCR1A = ((compATimeInterval * 16000UL) / 256); //calculate time interval from ms
+    OCR1A = (compATimeInterval * 16000UL) / 256; //calculate time interval from ms
     TIMSK1 |= (1 << OCIE1A); //enable Timer COMPA Interrupt
     sei(); 
 }
 
 void Timer::compBSetUp(const uint16_t &compBTimeInterval){
-    OCR1B = (compBTimeInterval * 16000) / 256; //calculate time interval from ms
+    OCR1B = (compBTimeInterval * 16000UL) / 256; //calculate time interval from ms
     TIMSK1 |= (1 << OCIE1B); //enable Timer COMPB Interrupt
     sei(); 
 }
