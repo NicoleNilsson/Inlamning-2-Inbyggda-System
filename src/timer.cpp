@@ -15,7 +15,7 @@ void Timer::compASetUp(const uint16_t &compATimeInterval){
 }
 
 void Timer::compBSetUp(const uint16_t &compBTimeInterval){
-    OCR1B = (compBTimeInterval * 16000UL) / 256; //calculate calculate tick count from milliseconds
+    OCR1B = (compBTimeInterval * 16000UL) / 256; //calculate tick count from milliseconds
     TIMSK1 |= (1 << OCIE1B); //enable Timer COMPB Interrupt
     sei(); 
 }

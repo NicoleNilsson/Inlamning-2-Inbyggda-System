@@ -8,6 +8,7 @@
 
 #define DISABLE_COMPB_INTERRUPT TIMSK1 &= ~(1 << OCIE1B);
 #define ENABLE_COMPB_INTERRUPT TIMSK1 |= (1 << OCIE1B);
+#define COMPB_ENABLED (TIMSK1 & (1 << OCIE1B))
 
 volatile bool ADCInterrupt = false;
 volatile bool LEDInterrupt = false;
@@ -43,14 +44,12 @@ int main(void){
       uart.printInteger("Voltage: ", voltage);
 
       if(voltage > 0){
-        if(!LEDInterrupt){
+        if(!COMPB_ENABLED){
           ENABLE_COMPB_INTERRUPT;
         }
         compBTimeInterval = voltage * 2 * 10;
-      }else if(voltage == 0 && LEDInterrupt){
+      }else if(voltage == 0 && COMPB_ENABLED){
         DISABLE_COMPB_INTERRUPT;
-        LEDInterrupt = false;
-        redLED.state = true;
       }
       ADCInterrupt = false;
     }
@@ -58,6 +57,8 @@ int main(void){
     if(LEDInterrupt){
       redLED.state = !redLED.state;
       LEDInterrupt = false;
+    }else if(!COMPB_ENABLED){
+      redLED.state = true;
     }
     redLED.toggleLED();
   }
