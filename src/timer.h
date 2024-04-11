@@ -7,8 +7,11 @@ public:
         timerSetup();
     }
 
+    void compASetUp(const uint16_t &compATimeInterval);
+    void compBSetUp(const uint16_t &compBTimeInterval);
+
 private:
-    void timerSetup();
+    void timerSetup(void);
 };
 
 #endif //__TIMER_H

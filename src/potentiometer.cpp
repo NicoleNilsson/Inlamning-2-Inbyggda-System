@@ -9,7 +9,6 @@ void Potentiometer::ADCSetup(void){
   ADCSRA |= (1 << ADEN) | (0 << ADSC) | (0 << ADATE) | (1 << ADPS0)
   | (1 << ADPS1) | (1 << ADPS2); //ADC enable, auto-trigger OFF, prescaler 128
   ADCSRB = 0x00; // free running mode, no power saving
-  sei(); //enable interrupt
 }
 
 uint16_t Potentiometer::readADC(void){
