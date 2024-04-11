@@ -11,10 +11,8 @@ public:
     }
 
     uint16_t readADC(void);
-    void printADCValue(Serial &uart);
-    void printVoltage(Serial &uart);
-    
-
+    void printValue();
+ 
 private:
     void ADCSetup(void);
 };

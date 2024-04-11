@@ -1,11 +1,12 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <stdlib.h>
 #include "bit_manipulation.h"
 #include "led.h"
 #include "timer.h"
 #include "potentiometer.h"
 
-volatile bool eventHappened = false;
+volatile bool ADCInterrupt = false;
 volatile bool blink = false;
 
 uint16_t compATimeInterval = 1000;//interrupt every 1sec
@@ -13,7 +14,7 @@ uint16_t compBTimeInterval = 1000;//interrupt every 1sec
 
 ISR(TIMER1_COMPA_vect){
   OCR1A += (compATimeInterval * 16000UL) / 256; 
-  eventHappened = true;
+  ADCInterrupt = true;
 }
 
 ISR(TIMER1_COMPB_vect){
@@ -28,17 +29,35 @@ int main(void){
   timer.compBSetUp(compBTimeInterval);
   
   Potentiometer potentiometer;
-
-  const uint16_t baudRate = 9600;
-  Serial uart(baudRate);
+  Serial uart(9600);
+  uint16_t ADCValue = 0;
+  uint8_t voltage = 0;
 
   LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
   while(1){
-    if(eventHappened){
-      potentiometer.printADCValue(uart);
-      potentiometer.printVoltage(uart);
-      eventHappened = false;
+    if(ADCInterrupt){
+      ADCValue = potentiometer.readADC();
+      char ADCValueAsString[10];
+      itoa(ADCValue, ADCValueAsString, 10);
+
+      uart.transmitString("ADC value: ");
+      uart.transmitString(ADCValueAsString);
+      uart.transmitChar('\n');
+
+      voltage = (ADCValue * (5.0 / 1023)); //TODO: bestäm om använda volt eller millivolt
+      char voltageAsString[10];
+      itoa(voltage, voltageAsString, 10);
+
+      uart.transmitString("Votlage: ");
+      uart.transmitString(voltageAsString);
+      uart.transmitChar('\n');
+
+      if(voltage == 5){
+        compBTimeInterval = 100;
+      }
+
+      ADCInterrupt = false;
     }
 
     if(blink){
