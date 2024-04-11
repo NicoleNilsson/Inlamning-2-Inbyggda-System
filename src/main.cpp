@@ -32,17 +32,13 @@ int main(void){
   timer.compBSetUp(compBTimeInterval);
   
   Potentiometer potentiometer;
-  uint16_t ADCValue = 0;
-  uint8_t voltage = 0;
-
   Serial uart(9600);
-
   LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
   while(1){
     if(ADCInterrupt){
-      ADCValue = potentiometer.readADC();
-      voltage = (ADCValue * (5.0 / 1023)); //TODO: bestäm om använda volt eller millivolt
+      uint16_t ADCValue = potentiometer.readADC();
+      uint8_t voltage = (ADCValue * (5.0 / 1023));
 
       uart.printInteger("ADC value: ", ADCValue);
       uart.printInteger("Voltage: ", voltage);
