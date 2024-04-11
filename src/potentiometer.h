@@ -11,7 +11,6 @@ public:
     }
 
     uint16_t readADC(void);
-    void printValue();
  
 private:
     void ADCSetup(void);

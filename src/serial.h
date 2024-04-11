@@ -17,7 +17,7 @@ public:
     char recieveChar(void);
     void transmitString(const char *str);
     void recieveString(char* buffer, uint8_t maxLength);
-    void echoChar();
+    void printInteger(const char* str, const uint16_t& value);
 
 private:
     const uint16_t baudRate;

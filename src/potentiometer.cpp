@@ -16,23 +16,3 @@ uint16_t Potentiometer::readADC(void){
   while (ADCSRA & (1 << ADSC)); //wait for conversion to complete, ADSC becomes '0′ again
   return ADC;
 }
-
-void Potentiometer::printValue(){
-  Serial uart(9600);
-  uint16_t ADCValue = readADC();
-  
-  char ADCValueAsString[10];
-  itoa(ADCValue, ADCValueAsString, 10);
-
-  uart.transmitString("ADC value: ");
-  uart.transmitString(ADCValueAsString);
-  uart.transmitChar('\n');
-
-  uint8_t voltage = (ADCValue * (5.0 / 1023)); //TODO: bestäm om använda volt eller millivolt
-  char voltageAsString[10];
-  itoa(voltage, voltageAsString, 10);
-
-  uart.transmitString("Votlage: ");
-  uart.transmitString(voltageAsString);
-  uart.transmitChar('\n');
-}

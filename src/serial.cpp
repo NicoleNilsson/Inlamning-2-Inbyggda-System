@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <stdlib.h>
 #include "serial.h"
 
 #define SERIAL_8N1 0x06
@@ -44,8 +45,11 @@ void Serial::transmitString(const char *str){
   }
 }
 
-void Serial::echoChar(){
-  char recievedChar = recieveChar();
-  transmitChar(recievedChar);
+void Serial::printInteger(const char* str, const uint16_t& value){
+  char valueAsString[8];
+  itoa(value, valueAsString, 10);
+
+  transmitString(str);
+  transmitString(valueAsString);
   transmitChar('\n');
 }
