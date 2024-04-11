@@ -6,14 +6,14 @@
 #include "timer.h"
 #include "potentiometer.h"
 
-#define DISABLE_COMPB_INTERRUPT TIMSK1 &= ~(1 << OCIE1B); // disable Timer COMPB Interrupt
-#define ENABLE_COMPB_INTERRUPT TIMSK1 |= (1 << OCIE1B); //enable Timer COMPB Interrupt
+#define DISABLE_COMPB_INTERRUPT TIMSK1 &= ~(1 << OCIE1B);
+#define ENABLE_COMPB_INTERRUPT TIMSK1 |= (1 << OCIE1B);
 
 volatile bool ADCInterrupt = false;
 volatile bool LEDInterrupt = false;
 
-uint16_t compATimeInterval = 1000;//interrupt every 1sec
-uint16_t compBTimeInterval = 1000;//interrupt every 1sec
+uint16_t compATimeInterval = 1000; //milliseconds
+uint16_t compBTimeInterval = 1000; //milliseconds
 
 ISR(TIMER1_COMPA_vect){
   OCR1A += (compATimeInterval * 16000UL) / 256; 
@@ -39,7 +39,6 @@ int main(void){
     if(ADCInterrupt){
       uint16_t ADCValue = potentiometer.readADC();
       uint8_t voltage = (ADCValue * (5.0 / 1023));
-
       uart.printInteger("ADC value: ", ADCValue);
       uart.printInteger("Voltage: ", voltage);
 
