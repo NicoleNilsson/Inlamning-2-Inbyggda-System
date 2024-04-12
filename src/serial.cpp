@@ -1,8 +1,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "serial.h"
-
-#define SERIAL_8N1 0x06
+#include "my_macros.h"
 
 void Serial::initiateUART(){
   uint16_t baudSetting = (F_CPU / 4 / baudRate - 1) / 2; //calculate baud setting value

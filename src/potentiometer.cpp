@@ -3,6 +3,7 @@
 #include <avr/interrupt.h>
 #include "potentiometer.h"
 #include "serial.h"
+#include "my_macros.h"
 
 void Potentiometer::ADCSetup(void){
   ADMUX = (1 << REFS0); // select ADC0 (pin A0) as input
@@ -12,7 +13,25 @@ void Potentiometer::ADCSetup(void){
 }
 
 uint16_t Potentiometer::readADC(void){
-  ADCSRA |= (1 << ADSC); //start single conversion
-  while (ADCSRA & (1 << ADSC)); //wait for conversion to complete, ADSC becomes '0′ again
+  startADCConversion();
+  while(ADC_CONVERSION_IN_PROGRESS); //wait for conversion to complete
   return ADC;
+}
+
+void Potentiometer::handleInterrupt(uint16_t &timeInterval){
+  uint16_t ADCValue = readADC();
+  uint8_t voltage = (ADCValue * (5.0 / 1023));
+
+  Serial uart(9600);
+  uart.printInteger("ADC value: ", ADCValue);
+  uart.printInteger("Voltage: ", voltage);
+
+  if(voltage > 0){
+    if(!COMPB_ENABLED){
+      enableCompBInterrupt();
+    }
+    timeInterval = voltage * 2 * 10;
+  }else if(voltage == 0 && COMPB_ENABLED){
+    disableCompBInterrupt();
+  }
 }

@@ -11,6 +11,7 @@ public:
     }
 
     uint16_t readADC(void);
+    void handleInterrupt(uint16_t &timeInterval);
  
 private:
     void ADCSetup(void);
