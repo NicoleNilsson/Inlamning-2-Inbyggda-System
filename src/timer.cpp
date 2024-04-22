@@ -17,7 +17,7 @@ void Timer::timerSetup(void){
     }else{
         setPrescaleTo1();
     }
-    setCompareAValue(200, 64);
+    setCompAValue(200, 64);
     enableCompAInterrupt();
     sei(); //enable interrupts
 }
