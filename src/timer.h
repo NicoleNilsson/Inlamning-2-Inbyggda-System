@@ -12,7 +12,7 @@
 #define setPrescaleTo1024() (setBit(TCCR1B, CS10), setBit(TCCR1B, CS12))
 
 #define enableCompAInterrupt() setBit(TIMSK1, OCIE1A)
-#define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale;
+#define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale
 #define advanceCompARegister(milliseconds, prescale) OCR1A += (milliseconds * 16000UL) / prescale
 
 class Timer{
