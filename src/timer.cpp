@@ -40,7 +40,7 @@ void Timer::timer2Setup(){
 
 void Timer::setCompAFrequency(uint16_t& compAFrequency){
   disableTimer1();
-  OCR1A = 0;
+  //OCR1A = 0;
   if(compAFrequency <= PRESCALE_1024_MAX && compAFrequency > PRESCALE_256_MAX){
     prescaler = 1024;
     setPrescaleTo1024();

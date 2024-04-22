@@ -15,6 +15,7 @@
 
 #define initiateTimer1() (TCCR1A = 0, TCCR1B = 0)
 
+//timer 1 prescaler macros
 #define setPrescaleTo1() setBit(TCCR1B, CS10) 
 #define setPrescaleTo8() (setBit(TCCR1B, CS11))
 #define setPrescaleTo64() (setBit(TCCR1B, CS11), setBit(TCCR1B, CS10))
@@ -25,6 +26,7 @@
 #define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale
 #define advanceCompARegister(milliseconds, prescale) OCR1A += (milliseconds * 16000UL) / prescale
 
+//timer 2 prescaler macros
 #define setPrescale2To1() setBit(TCCR2B, CS20) 
 #define setPrescale2To8() (setBit(TCCR2B, CS21))
 #define setPrescale2To64() (setBit(TCCR2B, CS21), setBit(TCCR1B, CS10))

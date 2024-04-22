@@ -6,13 +6,12 @@
 #include "serial.h"
 
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
-uint16_t prescaler = 64;
+uint16_t prescaler1 = 64;
 uint16_t compAFrequency = 200;
-// uint16_t prescaler = 1024;
-// uint16_t compAFrequency = 2000;
+uint16_t prescaler2 = 1;
 
-Timer timer(prescaler);
-Timer timer2(1);
+Timer timer(prescaler1);
+Timer timer2(prescaler2);
 
 volatile bool eventHappened = false;
 
