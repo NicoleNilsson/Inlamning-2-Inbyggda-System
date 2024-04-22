@@ -17,15 +17,15 @@
 
 class Timer{
 public:
-    Timer(const uint16_t prescaler)
+    Timer(const uint16_t prescaler, uint16_t& compAFrequency)
             :prescaler(prescaler){
-        timerSetup();
+        timerSetup(compAFrequency);
     }
 
     uint16_t prescaler;
 
 private:
-    void timerSetup();
+    void timerSetup(uint16_t& compAFrequency);
 };
 
 #endif //__TIMER_H

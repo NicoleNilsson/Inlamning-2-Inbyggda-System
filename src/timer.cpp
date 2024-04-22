@@ -4,7 +4,7 @@
 
 
 
-void Timer::timerSetup(void){
+void Timer::timerSetup(uint16_t& compAFrequency){
     initiateTimer1();
     if(prescaler == 1024){
         setPrescaleTo1024();
@@ -17,7 +17,7 @@ void Timer::timerSetup(void){
     }else{
         setPrescaleTo1();
     }
-    setCompAValue(200, 64);
+    setCompAValue(compAFrequency, prescaler);
     enableCompAInterrupt();
     sei(); //enable interrupts
 }

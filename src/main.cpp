@@ -5,8 +5,8 @@
 #include "timer.h"
 
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
-uint16_t prescaler = 256;
-uint8_t compAFrequency = 200;
+uint16_t prescaler = 64;
+uint16_t compAFrequency = 200;
 
 ISR(TIMER1_COMPA_vect){
   advanceCompARegister(compAFrequency, prescaler);
@@ -15,7 +15,7 @@ ISR(TIMER1_COMPA_vect){
 
 int main(void){
   //setup
-  Timer timer(prescaler);
+  Timer timer(prescaler, compAFrequency);
 
   while(1){
     redLED.toggleLED();
