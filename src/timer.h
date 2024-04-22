@@ -15,12 +15,12 @@
 //timer interrupt macros
 #define disableCompBInterrupt() clearBit(TIMSK1, OCIE1B)
 #define enableCompBInterrupt() setBit(TIMSK1, OCIE1B)
-#define loadCompBRegister(milliseconds, prescale) OCR1B = (milliseconds * 16000UL) / prescale
+#define setCompBValue(milliseconds, prescale) OCR1B = (milliseconds * 16000UL) / prescale;
 #define advanceCompBRegister(milliseconds, prescale) OCR1B += (milliseconds * 16000UL) / prescale
 #define COMPB_ENABLED checkBit(TIMSK1, OCIE1B)
 
 #define enableCompAInterrupt() setBit(TIMSK1, OCIE1A)
-#define loadCompARegister(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale
+#define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale;
 #define advanceCompARegister(milliseconds, prescale) OCR1A += (milliseconds * 16000UL) / prescale
 
 

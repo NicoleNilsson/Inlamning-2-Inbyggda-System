@@ -18,13 +18,13 @@ void Timer::timerSetup(void){
 }
 
 void Timer::compASetUp(const uint16_t &compATimeInterval){
-    loadCompARegister(compATimeInterval, prescaler); //calculate tick count from milliseconds
+    setCompAValue(compATimeInterval, prescaler); //calculate tick count from milliseconds
     enableCompAInterrupt(); //enable Timer COMPA Interrupt
     sei(); 
 }
 
 void Timer::compBSetUp(const uint16_t &compBTimeInterval){
-    loadCompBRegister(compBTimeInterval, prescaler);
+    setCompBValue(compBTimeInterval, prescaler);
     enableCompBInterrupt(); //enable Timer COMPB Interrupt
     sei(); 
 }
