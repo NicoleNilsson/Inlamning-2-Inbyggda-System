@@ -25,18 +25,29 @@
 #define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale
 #define advanceCompARegister(milliseconds, prescale) OCR1A += (milliseconds * 16000UL) / prescale
 
+#define setPrescale2To1() setBit(TCCR2B, CS20) 
+#define setPrescale2To8() (setBit(TCCR2B, CS21))
+#define setPrescale2To64() (setBit(TCCR2B, CS21), setBit(TCCR1B, CS10))
+#define setPrescale2To256() setBit(TCCR2B, CS22)
+#define setPrescale2To1024() (setBit(TCCR2B, CS20), setBit(TCCR1B, CS12))
+
+//timer pwm macros
+#define enablePWM() setBit(TCCR2A, COM2B1)
+#define disablePWM() clearBit(TCCR2A, COM2B1)
+#define PWMFastMode() setBit(TCCR2A, WGM20), setBit(TCCR2A, WGM21)
+
 class Timer{
 public:
-    Timer(const uint16_t prescaler, uint16_t& compAFrequency)
+    Timer(const uint16_t prescaler)
             :prescaler(prescaler){
-        timerSetup(compAFrequency);
     }
 
     uint16_t prescaler;
     void setCompAFrequency(uint16_t& compAFrequency);
 
-private:
-    void timerSetup(uint16_t& compAFrequency);
+
+    void timer1Setup(uint16_t& compAFrequency);
+    void timer2Setup();
 };
 
 #endif //__TIMER_H

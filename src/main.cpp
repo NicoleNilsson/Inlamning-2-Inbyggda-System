@@ -11,16 +11,24 @@ uint16_t compAFrequency = 200;
 // uint16_t prescaler = 1024;
 // uint16_t compAFrequency = 2000;
 
+Timer timer(prescaler);
+Timer timer2(1);
+
 volatile bool eventHappened = false;
 
+
+//ledpowerfreq 200 1000
+
+
 ISR(TIMER1_COMPA_vect){
-  advanceCompARegister(compAFrequency, prescaler);
+  advanceCompARegister(compAFrequency, timer.prescaler);
   eventHappened = true;
 }
 
 int main(void){
   //setup
-  Timer timer(prescaler, compAFrequency);
+  timer.timer1Setup(compAFrequency);
+  timer2.timer2Setup();
   Serial uart(9600);
   uint8_t commandMaxLength = 32;
 
@@ -38,8 +46,7 @@ int main(void){
     }
 
     if(eventHappened){
-      redLED.LEDOn = !redLED.LEDOn;
-      redLED.toggleLED();
+      redLED.blink();
       eventHappened = false;
     }
     
