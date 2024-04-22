@@ -8,14 +8,13 @@ LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
 //Timer compare
 ISR(TIMER1_COMPA_vect){
-  OCR1A += 50000; //Advance the COMPA register to interrupt every 200ms
-  redLED.state = !redLED.state;
+  advanceCompARegister(200, 64);
+  redLED.LEDOn = !redLED.LEDOn;
 }
 
 int main(void){
   //setup
-  Timer timer;
-  sei(); //enable interrupts
+  Timer timer(64);
 
   while(1){
     redLED.toggleLED();

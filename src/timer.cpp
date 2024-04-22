@@ -1,10 +1,23 @@
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include "timer.h"
 
+
+
 void Timer::timerSetup(void){
-TCCR1A = 0; // Init Timer1
-TCCR1B = 0; // Init Timer1
-TCCR1B |= 0x03; // Prescaler = 64
-OCR1A = 50000; // Set Timer CompareA Register
-TIMSK1 |= 0x02; // Enable Timer COMPA Interrupt
+    initiateTimer1();
+    if(prescaler == 1024){
+        setPrescaleTo1024();
+    }else if(prescaler == 256){
+        setPrescaleTo256();
+    }else if(prescaler == 64){
+        setPrescaleTo64();
+    }else if(prescaler == 8){
+        setPrescaleTo8();
+    }else{
+        setPrescaleTo1();
+    }
+    loadCompARegister(200, 64);
+    enableCompAInterrupt();
+    sei(); //enable interrupts
 }
