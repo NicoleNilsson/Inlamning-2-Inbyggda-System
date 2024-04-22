@@ -3,6 +3,16 @@
 #ifndef __TIMER_H
 #define __TIMER_H
 
+#define EVENT_FREQUENCY_MIN 200
+#define EVENT_FREQUENCY_MAX 5000
+
+#define PRESCALE_8_MAX 32 //ms
+#define PRESCALE_64_MAX 262 //ms
+#define PRESCALE_256_MAX 1048 //ms
+#define PRESCALE_1024_MAX 4194 //ms
+
+#define disableTimer1() TCCR1B = 0
+
 #define initiateTimer1() (TCCR1A = 0, TCCR1B = 0)
 
 #define setPrescaleTo1() setBit(TCCR1B, CS10) 
@@ -23,6 +33,7 @@ public:
     }
 
     uint16_t prescaler;
+    void setCompAFrequency(uint16_t& compAFrequency);
 
 private:
     void timerSetup(uint16_t& compAFrequency);
