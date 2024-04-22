@@ -10,7 +10,7 @@ uint16_t prescaler1 = 64;
 uint16_t compAFrequency = 200;
 uint16_t prescaler2 = 1;
 
-Timer timer(prescaler1);
+Timer timer1(prescaler1);
 Timer timer2(prescaler2);
 
 volatile bool eventHappened = false;
@@ -20,13 +20,13 @@ volatile bool eventHappened = false;
 
 
 ISR(TIMER1_COMPA_vect){
-  advanceCompARegister(compAFrequency, timer.prescaler);
+  advanceCompARegister(compAFrequency, timer1.prescaler);
   eventHappened = true;
 }
 
 int main(void){
   //setup
-  timer.timer1Setup(compAFrequency);
+  timer1.timer1Setup(compAFrequency);
   timer2.timer2Setup();
   Serial uart(9600);
   uint8_t commandMaxLength = 32;
@@ -39,7 +39,7 @@ int main(void){
         cli();
         redLED.LEDPower = newLEDPower;
         compAFrequency = newFrequency;
-        timer.setCompAFrequency(compAFrequency);
+        timer1.setCompAFrequency(compAFrequency);
         sei();
       }  
     }
