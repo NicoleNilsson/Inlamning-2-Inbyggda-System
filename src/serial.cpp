@@ -1,25 +1,24 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include "serial.h"
-#include "my_macros.h"
 
 void Serial::initiateUART(){
   uint16_t baudSetting = (F_CPU / 4 / baudRate - 1) / 2; //calculate baud setting value
-  UCSR0A = 1 << U2X0; //double speed mode
-  UBRR0H = baudSetting >> 8;  //store high byte of baud_setting
-  UBRR0L = baudSetting; //store low byte of baud_setting
-  UCSR0C = SERIAL_8N1; //set frame format
-  UCSR0B = ((1 << RXEN0) | (1 << TXEN0)); //enable UART reciever and transmitter
+  doubleSpeedMode();
+  storeBaudSetting(baudSetting);
+  setFrameFormat(SERIAL_8N1);
+  enableUartReciever();
+  enableUartTransmiter();
 }
 
 char Serial::recieveChar(void){
-  while(!HAS_RECIEVED_CHAR); //waiting to recieve data
+  while(!hasRecievedChar()); //waiting to recieve data
   return UDR0; //return recieved char 
 }
 
 void Serial::transmitChar(unsigned char recievedChar){
-  while(!REGISTER_EMPTY); //wait for data register to be empty
-  UDR0 = recievedChar; //load recievedChar into transmit register
+  while(!registerEmpty()); //wait for data register to be empty
+  loadTransmitRegister(recievedChar);
 }
 
 void Serial::recieveString(char *buffer, uint8_t maxLength){

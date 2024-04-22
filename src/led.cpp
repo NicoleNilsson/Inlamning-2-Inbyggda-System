@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "led.h"
-#include "my_macros.h"
 #include "serial.h"
 
 void LED::initiateLED(void){

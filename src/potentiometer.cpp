@@ -3,7 +3,7 @@
 #include <avr/interrupt.h>
 #include "potentiometer.h"
 #include "serial.h"
-#include "my_macros.h"
+#include "timer.h"
 
 void Potentiometer::ADCSetup(void){
   ADMUX = (1 << REFS0); // select ADC0 (pin A0) as input
@@ -14,7 +14,7 @@ void Potentiometer::ADCSetup(void){
 
 uint16_t Potentiometer::readADC(void){
   startADCConversion();
-  while(ADC_CONVERSION_IN_PROGRESS); //wait for conversion to complete
+  while(ADC_CONVERSION_IN_PROGRESS);
   return ADC;
 }
 

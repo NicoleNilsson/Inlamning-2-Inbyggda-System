@@ -1,8 +1,14 @@
 #include <avr/io.h>
 #include "serial.h"
+#include "bit_manipulation.h"
 
 #ifndef __LED_H
 #define __LED_H
+
+//led macros
+#define configOutput(byte, nbit) setBit(byte, nbit)
+#define LEDOn() setBit(PORTx, nbit)
+#define LEDOff() clearBit(PORTx, nbit)
 
 class LED{
 public:
