@@ -9,7 +9,7 @@ void Timer::timer1_Setup(uint16_t& compAFrequency){
     prescaler = 1024;
     timer1_setPrescaleTo1024();
     timer1_setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
-    timer1_enableCompAInterrupt();
+    timer1_enableCompA();
     sei();
     return;
   }
@@ -32,7 +32,7 @@ void Timer::timer1_Setup(uint16_t& compAFrequency){
   }
   overflowMode = false;
   timer1_setCompAValue(compAFrequency, prescaler);
-  timer1_enableCompAInterrupt();
+  timer1_enableCompA();
   sei();
 }
 

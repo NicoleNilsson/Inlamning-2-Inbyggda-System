@@ -19,8 +19,8 @@
 #define timer1_setPrescaleTo256() setBit(TCCR1B, CS12)
 #define timer1_setPrescaleTo1024() (setBit(TCCR1B, CS10), setBit(TCCR1B, CS12))
 
-#define timer1_enableCompAInterrupt() setBit(TIMSK1, OCIE1A)
-#define timer1_CompAEnabled() checkBit(TIMSK1, OCIE1A)
+#define timer1_enableCompA() setBit(TIMSK1, OCIE1A)
+#define timer1_compAEnabled() checkBit(TIMSK1, OCIE1A)
 #define timer1_setCompAValue(milliseconds, prescaleValue) OCR1A = (milliseconds * 16000UL) / prescaleValue
 #define timer1_advanceCompARegister(milliseconds, prescaleValue) OCR1A += (milliseconds * 16000UL) / prescaleValue
 
