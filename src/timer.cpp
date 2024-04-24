@@ -2,61 +2,73 @@
 #include <avr/interrupt.h>
 #include "timer.h"
 
-
-
 void Timer::timer1Setup(uint16_t& compAFrequency){
-  initiateTimer1();
+  timer1_InitAndReset();
   if(compAFrequency > PRESCALE_1024_MAX){
     overflowMode = true;
     prescaler = 1024;
-    setPrescaleTo1024();
-    setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
-    enableCompAInterrupt();
-    sei(); //enable interrupts
+    timer1_setPrescaleTo1024();
+    timer1_setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
+    timer1_enableCompAInterrupt();
+    sei();
     return;
-  }else if(compAFrequency <= PRESCALE_1024_MAX && compAFrequency > PRESCALE_256_MAX){
+  }
+  
+  if(compAFrequency <= PRESCALE_1024_MAX && compAFrequency > PRESCALE_256_MAX){
     prescaler = 1024;
-    setPrescaleTo1024();
+    timer1_setPrescaleTo1024();
   }else if(compAFrequency <= PRESCALE_256_MAX && compAFrequency > PRESCALE_64_MAX){
     prescaler = 256;
-    setPrescaleTo256();
+    timer1_setPrescaleTo256();
   }else if(compAFrequency <= PRESCALE_64_MAX){
     prescaler = 64;
-    setPrescaleTo64();
+    timer1_setPrescaleTo64();
+  }else if(compAFrequency <= PRESCALE_8_MAX){
+    prescaler = 8;
+    timer1_setPrescaleTo8();
+  }else{
+    prescaler = 1;
+    timer1_NoPrescaler();
   }
-  setCompAValue(compAFrequency, prescaler);
-  enableCompAInterrupt();
-  sei(); //enable interrupts
+  overflowMode = false;
+  timer1_setCompAValue(compAFrequency, prescaler);
+  timer1_enableCompAInterrupt();
+  sei();
 }
 
 void Timer::timer2Setup(){
-  TCCR2B |= _BV(CS20); // Set prescaler to 1 (no prescaling)
-  enablePWM();
-  PWMFastMode();
+  timer2_NoPrescaler();
+  timer2_enablePWM();
+  timer2_PWMFastMode();
 }
 
 void Timer::setCompAFrequency(uint16_t& compAFrequency){
-  disableTimer1();
-  //OCR1A = 0;
+  timer1_InitAndReset();
   if(compAFrequency > PRESCALE_1024_MAX){
     overflowMode = true;
     prescaler = 1024;
-    setPrescaleTo1024();
-    setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
+    timer1_setPrescaleTo1024();
+    timer1_setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
     return;
-  }else if(compAFrequency <= PRESCALE_1024_MAX && compAFrequency > PRESCALE_256_MAX){
-    overflowMode = false;
-    prescaler = 1024;
-    setPrescaleTo1024();
-  }else if(compAFrequency <= PRESCALE_256_MAX && compAFrequency > PRESCALE_64_MAX){
-    overflowMode = false;
-    prescaler = 256;
-    setPrescaleTo256();
-  }else if(compAFrequency <= PRESCALE_64_MAX){
-    overflowMode = false;
-    prescaler = 64;
-    setPrescaleTo64();
   }
   
-  setCompAValue(compAFrequency, prescaler);
+  if(compAFrequency <= PRESCALE_1024_MAX && compAFrequency > PRESCALE_256_MAX){
+    prescaler = 1024;
+    timer1_setPrescaleTo1024();
+  }else if(compAFrequency <= PRESCALE_256_MAX && compAFrequency > PRESCALE_64_MAX){
+    prescaler = 256;
+    timer1_setPrescaleTo256();
+  }else if(compAFrequency <= PRESCALE_64_MAX){
+    prescaler = 64;
+    timer1_setPrescaleTo64();
+  }else if(compAFrequency <= PRESCALE_8_MAX){
+    prescaler = 8;
+    timer1_setPrescaleTo8();
+  }else{
+    prescaler = 1;
+    timer1_NoPrescaler();
+  }
+
+  overflowMode = false;
+  timer1_setCompAValue(compAFrequency, prescaler);
 }

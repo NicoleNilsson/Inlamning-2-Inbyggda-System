@@ -34,14 +34,14 @@ ISR(TIMER1_COMPA_vect){
   if(timer1.overflowMode){
     if(overflowHappened){
       overflowHappened = false;
-      advanceCompARegister((compAFrequency - MAX_CLOCK_TICKS), timer1.getPrescaler());
+      timer1_advanceCompARegister((compAFrequency - MAX_CLOCK_TICKS), timer1.getPrescaler());
     }else{
-      advanceCompARegister(MAX_CLOCK_TICKS, timer1.getPrescaler());
+      timer1_advanceCompARegister(MAX_CLOCK_TICKS, timer1.getPrescaler());
       overflowHappened = true;
       eventHappened = true;
     }
   }else{
-    advanceCompARegister(compAFrequency, timer1.getPrescaler());
+    timer1_advanceCompARegister(compAFrequency, timer1.getPrescaler());
     eventHappened = true;
   }
 }

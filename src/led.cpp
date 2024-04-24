@@ -17,9 +17,9 @@ void LED::toggleLED(void){
 void LED::blink(){
   LEDOn = !LEDOn;
   if(LEDOn){
-    enablePWM();
+    timer2_enablePWM();
     setLEDBrightness(LEDPower);
   }else{
-    disablePWM();
+    timer2_disablePWM();
   }
 }
