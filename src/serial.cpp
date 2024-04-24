@@ -91,10 +91,8 @@ bool Serial::handleCommand(uint8_t& commandMaxLength, uint8_t& LEDPower, uint16_
   uint8_t result = recieveCommand(newLEDPower, newEventFrequency, commandMaxLength);
 
   if(result == SUCCESS){
-    cli();
     eventFrequency = newEventFrequency;
     LEDPower = newLEDPower;
-    sei();
     return true;
   }else  if(result == COMMAND_UNKOWN){
     transmitString("Unknown command\n");

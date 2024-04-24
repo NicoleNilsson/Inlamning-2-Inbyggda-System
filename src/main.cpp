@@ -41,13 +41,9 @@ int main(void){
 
   while(1){
     if(hasRecievedChar()){
-      uint16_t newFrequency = 0;
-      uint8_t newLEDPower = 0;
-      if(uart.handleCommand(commandMaxLength, newLEDPower, newFrequency)){
+      if(uart.handleCommand(commandMaxLength, redLED.LEDPower, compAFrequency)){
         uint8_t oldSREG = SREG;
         cli();
-        redLED.LEDPower = newLEDPower;
-        compAFrequency = newFrequency;
         timer1.setCompAFrequency(compAFrequency);
         SREG = oldSREG;
       }  
