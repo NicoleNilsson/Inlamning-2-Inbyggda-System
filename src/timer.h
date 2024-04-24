@@ -36,8 +36,8 @@ public:
 
     volatile bool overflowMode = false;
     uint16_t getPrescaler(void){return prescaler;}
-    void timer1Setup(uint16_t& compAFrequency);
-    void timer2Setup(); 
+    void timer1_Setup(uint16_t& compAFrequency);
+    void timer2_Setup(); 
     void setCompAFrequency(uint16_t& compAFrequency);
 
 private:   

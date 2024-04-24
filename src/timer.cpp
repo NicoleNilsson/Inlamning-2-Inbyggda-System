@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include "timer.h"
 
-void Timer::timer1Setup(uint16_t& compAFrequency){
+void Timer::timer1_Setup(uint16_t& compAFrequency){
   timer1_InitAndReset();
   if(compAFrequency > PRESCALE_1024_MAX){
     overflowMode = true;
@@ -36,7 +36,7 @@ void Timer::timer1Setup(uint16_t& compAFrequency){
   sei();
 }
 
-void Timer::timer2Setup(){
+void Timer::timer2_Setup(){
   timer2_NoPrescaler();
   timer2_enablePWM();
   timer2_PWMFastMode();

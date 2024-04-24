@@ -48,8 +48,8 @@ ISR(TIMER1_COMPA_vect){
 
 int main(void){
   compAFrequency = 200;
-  timer1.timer1Setup(compAFrequency);
-  timer2.timer2Setup();
+  timer1.timer1_Setup(compAFrequency);
+  timer2.timer2_Setup();
 
   while(1){
     if(stringComplete){
