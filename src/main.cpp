@@ -12,10 +12,7 @@ Timer timer1;
 Timer timer2;
 
 volatile bool eventHappened = false;
-
 volatile bool overflowHappened = false;
-
-
 //ledpowerfreq 200 5000
 
 
@@ -47,11 +44,12 @@ int main(void){
       uint16_t newFrequency = 0;
       uint8_t newLEDPower = 0;
       if(uart.handleCommand(commandMaxLength, newLEDPower, newFrequency)){
+        uint8_t oldSREG = SREG;
         cli();
         redLED.LEDPower = newLEDPower;
         compAFrequency = newFrequency;
         timer1.setCompAFrequency(compAFrequency);
-        sei();
+        SREG = oldSREG;
       }  
     }
 
