@@ -1,6 +1,5 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-// #include <stdlib.h>
 #include <stdio.h> //sscanf
 #include "bit_manipulation.h"
 #include "led.h"
