@@ -20,6 +20,7 @@ enum serialErrorCodes{
 #define enableUartTransmiter() setBit(UCSR0B, TXEN0)
 #define storeBaudSetting(baudSetting) UBRR0H = baudSetting >> 8, UBRR0L = baudSetting
 #define doubleSpeedMode() setBit(UCSR0A, U2X0)
+#define enableUartInterrupt() setBit(UCSR0B, RXCIE0);
 #define loadTransmitRegister(value) UDR0 = value;
 
 #define SERIAL_8N1 0x06
@@ -36,10 +37,8 @@ public:
     void transmitChar(unsigned char data);
     char recieveChar(void);
     void transmitString(const char *str);
-    uint8_t recieveString(char* buffer, uint8_t maxLength);
+    bool recieveString(char* buffer, uint8_t maxLength);
     void transmitInteger(const uint16_t& value);
-    uint8_t recieveCommand(uint16_t& LEDPower, uint16_t& eventFrequency, const uint8_t& commandMaxLength);
-    bool handleCommand(uint8_t& commandMaxLength, uint8_t& LEDPower, uint16_t& eventFrequency);
 
 private:
     const uint16_t baudRate;
