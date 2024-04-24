@@ -10,12 +10,11 @@
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 uint16_t compAFrequency = 0;
 Timer timer1;
-Timer timer2;
 
 Serial uart(9600);
 const uint8_t commandMaxLength = 32;
 char command[commandMaxLength];
-bool stringComplete = false;
+volatile bool stringComplete = false;
 
 volatile bool eventHappened = false;
 volatile bool overflowHappened = false;
@@ -49,6 +48,7 @@ ISR(TIMER1_COMPA_vect){
 int main(void){
   compAFrequency = 200;
   timer1.timer1_Setup(compAFrequency);
+  Timer timer2;
   timer2.timer2_Setup();
 
   while(1){
@@ -68,6 +68,7 @@ int main(void){
   return 0;
 }
 
+//TODO: move these from main?
 void handleCommand(Serial& uart, const char* command){
   uint16_t newcompAFrequency = 0;
   uint16_t newLEDPower = 0;
