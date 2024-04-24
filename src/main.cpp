@@ -8,16 +8,17 @@
 #include "serial.h"
 
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
-uint16_t compAFrequency = 0;
+
 Timer timer1;
+volatile bool eventHappened = false;
+volatile bool overflowHappened = false;
 
 Serial uart(9600);
 const uint8_t commandMaxLength = 32;
 char command[commandMaxLength];
 volatile bool stringComplete = false;
 
-volatile bool eventHappened = false;
-volatile bool overflowHappened = false;
+
 //ledpowerfreq 255 5000
 
 //TODO: move these from main?
@@ -33,20 +34,20 @@ ISR(TIMER1_COMPA_vect){
   if(timer1.overflowMode){
     if(overflowHappened){
       overflowHappened = false;
-      timer1_advanceCompARegister((compAFrequency - MAX_CLOCK_TICKS), timer1.getPrescaler());
+      timer1_advanceCompARegister((timer1.getCompAFrequency() - MAX_CLOCK_TICKS), timer1.getPrescaler());
     }else{
       timer1_advanceCompARegister(MAX_CLOCK_TICKS, timer1.getPrescaler());
       overflowHappened = true;
       eventHappened = true;
     }
   }else{
-    timer1_advanceCompARegister(compAFrequency, timer1.getPrescaler());
+    timer1_advanceCompARegister(timer1.getCompAFrequency(), timer1.getPrescaler());
     eventHappened = true;
   }
 }
 
 int main(void){
-  compAFrequency = 200;
+  uint16_t compAFrequency = 200;
   timer1.timer1_Setup(compAFrequency);
   Timer timer2;
   timer2.timer2_Setup();
@@ -77,9 +78,8 @@ void handleCommand(Serial& uart, const char* command){
   if(result == SUCCESS){
     uint8_t oldSREG = SREG;
     cli();
-    compAFrequency = newcompAFrequency;
     redLED.LEDPower = newLEDPower;
-    timer1.setCompAFrequency(compAFrequency);
+    timer1.setCompAFrequency(newcompAFrequency);
     SREG = oldSREG;
   }else  if(result == COMMAND_UNKOWN){
     uart.transmitString("Unknown command\n");
