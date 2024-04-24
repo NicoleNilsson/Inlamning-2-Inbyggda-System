@@ -3,8 +3,10 @@
 #ifndef __TIMER_H
 #define __TIMER_H
 
+#define MAX_CLOCK_TICKS 65535
 #define EVENT_FREQUENCY_MIN 200
 #define EVENT_FREQUENCY_MAX 5000
+
 
 #define PRESCALE_8_MAX 32 //ms
 #define PRESCALE_64_MAX 262 //ms
@@ -26,13 +28,6 @@
 #define setCompAValue(milliseconds, prescale) OCR1A = (milliseconds * 16000UL) / prescale
 #define advanceCompARegister(milliseconds, prescale) OCR1A += (milliseconds * 16000UL) / prescale
 
-//timer 2 prescaler macros
-#define setPrescale2To1() setBit(TCCR2B, CS20) 
-#define setPrescale2To8() (setBit(TCCR2B, CS21))
-#define setPrescale2To64() (setBit(TCCR2B, CS21), setBit(TCCR1B, CS10))
-#define setPrescale2To256() setBit(TCCR2B, CS22)
-#define setPrescale2To1024() (setBit(TCCR2B, CS20), setBit(TCCR1B, CS12))
-
 //timer pwm macros
 #define enablePWM() setBit(TCCR2A, COM2B1)
 #define disablePWM() clearBit(TCCR2A, COM2B1)
@@ -40,16 +35,20 @@
 
 class Timer{
 public:
-    Timer(const uint16_t prescaler)
-            :prescaler(prescaler){
-    }
+    Timer(void){}
 
-    uint16_t prescaler;
+    
+    volatile bool overflowMode = false;
+    uint16_t getPrescaler(void){return prescaler;}
+    void timer1Setup(uint16_t& compAFrequency);
+    void timer2Setup(); 
     void setCompAFrequency(uint16_t& compAFrequency);
 
+private:   
+    uint16_t prescaler;
+    
 
-    void timer1Setup(uint16_t& compAFrequency);
-    void timer2Setup();
+
 };
 
 #endif //__TIMER_H

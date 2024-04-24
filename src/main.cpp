@@ -6,22 +6,33 @@
 #include "serial.h"
 
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
-uint16_t prescaler1 = 64;
 uint16_t compAFrequency = 200;
-uint16_t prescaler2 = 1;
 
-Timer timer1(prescaler1);
-Timer timer2(prescaler2);
+Timer timer1;
+Timer timer2;
 
 volatile bool eventHappened = false;
 
+volatile bool overflowHappened = false;
 
-//ledpowerfreq 200 1000
+
+//ledpowerfreq 200 5000
 
 
 ISR(TIMER1_COMPA_vect){
-  advanceCompARegister(compAFrequency, timer1.prescaler);
-  eventHappened = true;
+  if(timer1.overflowMode){
+    if(overflowHappened){
+      overflowHappened = false;
+      advanceCompARegister((compAFrequency - MAX_CLOCK_TICKS), timer1.getPrescaler());
+    }else{
+      advanceCompARegister(MAX_CLOCK_TICKS, timer1.getPrescaler());
+      overflowHappened = true;
+      eventHappened = true;
+    }
+  }else{
+    advanceCompARegister(compAFrequency, timer1.getPrescaler());
+    eventHappened = true;
+  }
 }
 
 int main(void){
