@@ -19,7 +19,7 @@ void Timer::setCompAFrequency(uint16_t& newFrequency){
 
   timer1_InitAndReset();
   if(compAFrequency > PRESCALE_1024_MAX){
-    overflowMode = true;
+    timeOutOfRange = true;
     prescaler = 1024;
     timer1_setPrescaleTo1024();
     timer1_setCompAValue((compAFrequency - MAX_CLOCK_TICKS), prescaler);
@@ -43,6 +43,6 @@ void Timer::setCompAFrequency(uint16_t& newFrequency){
     timer1_NoPrescaler();
   }
 
-  overflowMode = false;
+  timeOutOfRange = false;
   timer1_setCompAValue(compAFrequency, prescaler);
 }

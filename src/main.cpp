@@ -9,8 +9,7 @@
 LED redLED(3, DDRD, PORTD); //aka pin 3 on freenove
 
 Timer timer1;
-volatile bool eventHappened = false;
-volatile bool overflowHappened = false;
+volatile bool overflow = false;
 
 Serial uart(9600);
 const uint8_t commandMaxLength = 32;
@@ -30,18 +29,18 @@ ISR(USART_RX_vect){
 
 //TODO: clean this up
 ISR(TIMER1_COMPA_vect){
-  if(timer1.overflowMode){
-    if(overflowHappened){
-      overflowHappened = false;
+  if(timer1.timeOutOfRange){
+    if(overflow){
+      overflow = false;
       timer1_advanceCompARegister((timer1.getCompAFrequency() - MAX_CLOCK_TICKS), timer1.getPrescaler());
     }else{
       timer1_advanceCompARegister(MAX_CLOCK_TICKS, timer1.getPrescaler());
-      overflowHappened = true;
-      eventHappened = true;
+      overflow = true;
+      redLED.blink();
     }
   }else{
     timer1_advanceCompARegister(timer1.getCompAFrequency(), timer1.getPrescaler());
-    eventHappened = true;
+    redLED.blink();
   }
 }
 
@@ -57,11 +56,6 @@ int main(void){
       uart.transmitChar('\n');
       handleCommand(uart, command);
       stringComplete = false;
-    }
-
-    if(eventHappened){
-      redLED.blink();
-      eventHappened = false;
     }
   }
 

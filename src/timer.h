@@ -35,7 +35,7 @@ public:
     Timer(){}
     
     
-    volatile bool overflowMode = false;
+    volatile bool timeOutOfRange = false;
     
     uint16_t getPrescaler(void){return prescaler;}
     uint16_t getCompAFrequency(void){return compAFrequency;}
