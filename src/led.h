@@ -21,8 +21,7 @@ public:
     volatile uint8_t &DDRx;
     volatile uint8_t &PORTx;
     bool LEDOn = false;
-    uint8_t LEDPower = LED_POWER_MAX;
-    void blink();
+    float LEDPower = LED_POWER_MAX;
 
 private:
     void initiateLED(void);
