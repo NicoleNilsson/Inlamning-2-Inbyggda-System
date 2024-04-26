@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>
 #include "timer.h"
 
-void Timer::timer1_Setup(uint16_t& compAFrequency){
+void Timer::timer1_Setup(const uint16_t& compAFrequency){
   setCompAFrequency(compAFrequency);
   timer1_enableCompA();
   sei();
@@ -14,7 +14,7 @@ void Timer::timer2_Setup(){
   timer2_PWMFastMode();
 }
 
-void Timer::setCompAFrequency(uint16_t& newFrequency){
+void Timer::setCompAFrequency(const uint16_t& newFrequency){
   compAFrequency = newFrequency;
 
   timer1_InitAndReset();

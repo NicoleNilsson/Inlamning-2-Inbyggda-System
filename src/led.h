@@ -23,6 +23,8 @@ public:
     bool LEDOn = false;
     float LEDPower = LED_POWER_MAX;
 
+    void rampLEDPower(const uint8_t rampIncrement);
+
 private:
     void initiateLED(void);
 };

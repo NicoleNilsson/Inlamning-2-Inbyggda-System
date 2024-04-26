@@ -6,13 +6,14 @@
 #include "serial.h"
 #include "command_action.h"
 
-void handleCommand(Serial& uart, Timer &timer, const char* command){
+void handleCommand(Serial& uart, Timer &timer, const char* command, const uint8_t& rampIncrement){
   uint16_t newcompAFrequency = 0;
   uint8_t result = parseCommand(command, newcompAFrequency);
 
   if(result == SUCCESS){
     uint8_t oldSREG = SREG;
     cli();
+    newcompAFrequency = calculateFrequencyForRampTime(newcompAFrequency, rampIncrement);
     timer.setCompAFrequency(newcompAFrequency);
     SREG = oldSREG;
   }else  if(result == COMMAND_UNKOWN){

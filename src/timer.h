@@ -32,16 +32,14 @@ class Timer{
 public:
     Timer(){}
     
-    
     volatile bool timeOutOfRange = false;
-    
+
     uint16_t getPrescaler(void){return prescaler;}
     uint16_t getCompAFrequency(void){return compAFrequency;}
-    void timer1_Setup(uint16_t& newFrequency);
-    void timer2_Setup(); 
-    void setCompAFrequency(uint16_t& compAFrequency);
 
-    
+    void timer1_Setup(const uint16_t& newFrequency);
+    void timer2_Setup(); 
+    void setCompAFrequency(const uint16_t& compAFrequency);
 
 private: 
     uint16_t compAFrequency;  
