@@ -20,7 +20,7 @@ ISR(USART_RX_vect){
   stringComplete = uart.recieveString(command, commandMaxLength);
 }
 
-//TODO: clean this up
+
 ISR(TIMER1_COMPA_vect){
   if(timer1.timeOutOfRange){
     if(overflow){
