@@ -20,7 +20,12 @@ void handleCommand(Serial& uart, Timer &timer, LED& led, const char* command){
   }else  if(result == COMMAND_UNKOWN){
     uart.transmitString("Unknown command\n");
   }else if(result == COMMAND_OUT_OF_RANGE){
-    uart.transmitString("Frequency needs to be 200ms-5000ms and LED power needs to be 0-255\n");
+    //not the best looking solution but the best I can do
+    uart.transmitString("Frequency needs to be ");
+    uart.transmitInteger(EVENT_FREQUENCY_MIN); uart.transmitChar('-'); uart.transmitInteger(EVENT_FREQUENCY_MAX);
+    uart.transmitString("ms and LED power needs to be ");
+    uart.transmitInteger(LED_POWER_MIN); uart.transmitChar('-'); uart.transmitInteger(LED_POWER_MAX);
+    uart.transmitChar('\n');
   }
 }
 
