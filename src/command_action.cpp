@@ -6,7 +6,7 @@
 #include "serial.h"
 #include "command_action.h"
 
-void handleCommand(Serial& uart, Timer &timer, LED led, const char* command){
+void handleCommand(Serial& uart, Timer &timer, LED& led, const char* command){
   uint16_t newcompAFrequency = 0;
   uint16_t newLEDPower = 0;
   uint8_t result = parseCommand(command, newLEDPower, newcompAFrequency);

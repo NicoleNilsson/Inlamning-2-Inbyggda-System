@@ -8,9 +8,6 @@
 #define LED_POWER_MIN 0
 
 #define configOutput(byte, nbit) setBit(byte, nbit)
-#define LEDOn() setBit(PORTx, nbit)
-#define LEDOff() clearBit(PORTx, nbit)
-
 #define setLEDBrightness(LEDPower) OCR2B = LEDPower
 
 class LED{
@@ -25,7 +22,6 @@ public:
     volatile uint8_t &PORTx;
     bool LEDOn = false;
     uint8_t LEDPower = LED_POWER_MAX;
-    void toggleLED(void);
     void blink();
 
 private:

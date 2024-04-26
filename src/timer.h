@@ -5,8 +5,7 @@
 
 //timer 1 macros
 #define MAX_CLOCK_TICKS 65535
-#define EVENT_FREQUENCY_MIN 200
-#define EVENT_FREQUENCY_MAX 5000
+
 #define PRESCALE_8_MAX 32 //ms
 #define PRESCALE_64_MAX 262 //ms
 #define PRESCALE_256_MAX 1048 //ms
@@ -20,7 +19,6 @@
 #define timer1_setPrescaleTo1024() (setBit(TCCR1B, CS10), setBit(TCCR1B, CS12))
 
 #define timer1_enableCompA() setBit(TIMSK1, OCIE1A)
-#define timer1_compAEnabled() checkBit(TIMSK1, OCIE1A)
 #define timer1_setCompAValue(milliseconds, prescaleValue) OCR1A = (milliseconds * 16000UL) / prescaleValue
 #define timer1_advanceCompARegister(milliseconds, prescaleValue) OCR1A += (milliseconds * 16000UL) / prescaleValue
 

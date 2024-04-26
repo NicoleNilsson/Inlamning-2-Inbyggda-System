@@ -25,8 +25,6 @@ enum serialErrorCodes{
 
 #define SERIAL_8N1 0x06
 
-#define LED_POWER_FREQ_COMMAND "ledpowerfreq %d %d"
-
 class Serial{
 public:
     Serial(const uint16_t baudRate)

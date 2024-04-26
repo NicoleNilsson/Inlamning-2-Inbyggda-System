@@ -16,9 +16,6 @@ const uint8_t commandMaxLength = 32;
 char command[commandMaxLength];
 volatile bool stringComplete = false;
 
-
-//ledpowerfreq 255 5000
-
 ISR(USART_RX_vect){
   stringComplete = uart.recieveString(command, commandMaxLength);
 }
